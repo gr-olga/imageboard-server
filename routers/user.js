@@ -7,6 +7,7 @@ router.get("/", async (req, res) => {
     try {
         const users = await User.findAll();
         res.send(users);
+
     } catch (e) {
         console.log(e.message);
     }
@@ -15,7 +16,7 @@ router.get("/:id", async (req, res) => {
     try {
         const userId = req.params.id;
         const oneUser = await User.findByPk(userId);
-        if (!oneUser){
+        if (!oneUser) {
             return res.status(404).send("User not found")
         }
         res.send(oneUser);
