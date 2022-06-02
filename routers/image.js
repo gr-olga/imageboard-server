@@ -1,4 +1,5 @@
-const { Router } = require("express")
+const {Router} = require("express")
+const {user: User} = require("../models");
 
 //models
 const Image = require("../models").image;
@@ -12,4 +13,29 @@ router.get("/", async (req, res) => {
         console.log(e.message);
     }
 });
+
+router.get("/:id", async (req, res) => {
+    try {
+        const imageId = req.params.id;
+        const oneImage = await Image.findByPk(imageId);
+        if (!oneImage){
+            return res.status(404).send("Image not found")
+        }
+        res.send(oneImage);
+    } catch (e) {
+        console.log(e.message);
+    }
+});
+router.post("/", async (req, res) => {
+    try {
+        const { title, url } = req.body
+        const newImage = await Image.create({ title, url})
+        res.send(newImage);
+    } catch (e) {
+        console.log(e.message);
+    }
+});
+
+
+
 module.exports = router
